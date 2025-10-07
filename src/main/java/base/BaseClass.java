@@ -31,8 +31,8 @@ public class BaseClass {
 
         Login loginPage = new Login(driver);
         
-        loginPage.enterUsername("shub@braincellinfotech.ai");
-        loginPage.enterPassword("redefine@999");
+        loginPage.enterUsername("admin-qa@braincellinfotech.ai");
+        loginPage.enterPassword("redefine@123");
         loginPage.clickRememberMe();
         loginPage.clickSubmitButton();
     }

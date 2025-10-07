@@ -8,7 +8,7 @@
           <include name="setupReport"/>
           <include name="tearDown"/>
           <include name="flushReport"/>
-          <include name="testLogin"/>
+          <include name="testLoginAndVerifyHomePage"/>
         </methods>
       </class> <!-- TestScript -->
     </classes>
