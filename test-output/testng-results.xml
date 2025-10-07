@@ -1,32 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-10-07T10:10:53 IST" name="Default suite" finished-at="2025-10-07T10:10:54 IST" duration-ms="262">
+  <suite started-at="2025-10-07T10:51:56 IST" name="Default suite" finished-at="2025-10-07T10:52:09 IST" duration-ms="12716">
     <groups>
     </groups>
-    <test started-at="2025-10-07T10:10:53 IST" name="Default test" finished-at="2025-10-07T10:10:54 IST" duration-ms="262">
+    <test started-at="2025-10-07T10:51:56 IST" name="Default test" finished-at="2025-10-07T10:52:09 IST" duration-ms="12716">
       <class name="TestScript">
-        <test-method is-config="true" signature="setupReport()[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:10:32 IST" name="setupReport" finished-at="2025-10-07T10:10:53 IST" duration-ms="21351" status="PASS">
+        <test-method is-config="true" signature="setupReport()[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:51:47 IST" name="setupReport" finished-at="2025-10-07T10:51:56 IST" duration-ms="9450" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupReport -->
-        <test-method signature="testLogin()[pri:1, instance:TestScript@4afcd809]" started-at="2025-10-07T10:10:54 IST" name="testLogin" finished-at="2025-10-07T10:10:54 IST" duration-ms="62" status="PASS">
+        <test-method signature="testLoginAndVerifyHomePage()[pri:1, instance:TestScript@4afcd809]" started-at="2025-10-07T10:51:56 IST" name="testLoginAndVerifyHomePage" finished-at="2025-10-07T10:52:09 IST" duration-ms="12638" status="FAIL">
+          <exception class="org.openqa.selenium.TimeoutException">
+            <message>
+              <![CDATA[Expected condition failed: waiting for visibility of element located by By.cssSelector: .profile-icon-selector (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.26.0', revision: '8ccf0219d7'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '23.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 140.0.7339.208, chrome: {chromedriverVersion: 140.0.7339.207 (17230b545fd..., userDataDir: C:\Users\pavan\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63969}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63969/devtoo..., se:cdpVersion: 140.0.7339.208, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 89ea763105dd0af1544be5f236c555a0]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element located by By.cssSelector: .profile-icon-selector (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.26.0', revision: '8ccf0219d7'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '23.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 140.0.7339.208, chrome: {chromedriverVersion: 140.0.7339.207 (17230b545fd..., userDataDir: C:\Users\pavan\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63969}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63969/devtoo..., se:cdpVersion: 140.0.7339.208, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 89ea763105dd0af1544be5f236c555a0
+at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
+at page.Home.checkDashBoardURL(Home.java:62)
+at TestScript.testLoginAndVerifyHomePage(TestScript.java:14)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
+at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
+at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
+at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
+at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
+at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+at org.testng.TestRunner.privateRun(TestRunner.java:794)
+at org.testng.TestRunner.run(TestRunner.java:596)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+at org.testng.TestNG.runSuites(TestNG.java:1063)
+at org.testng.TestNG.run(TestNG.java:1031)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.openqa.selenium.TimeoutException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testLogin -->
-        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:10:54 IST" name="tearDown" finished-at="2025-10-07T10:10:54 IST" duration-ms="44" status="PASS">
+        </test-method> <!-- testLoginAndVerifyHomePage -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:52:09 IST" name="tearDown" finished-at="2025-10-07T10:52:09 IST" duration-ms="30" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=testLogin status=SUCCESS method=TestScript.testLogin()[pri:1, instance:TestScript@4afcd809] output={null}]]]>
+                <![CDATA[[TestResult name=testLoginAndVerifyHomePage status=FAILURE method=TestScript.testLoginAndVerifyHomePage()[pri:1, instance:TestScript@4afcd809] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="flushReport()[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:10:54 IST" name="flushReport" finished-at="2025-10-07T10:10:57 IST" duration-ms="3544" status="PASS">
+        <test-method is-config="true" signature="flushReport()[pri:0, instance:TestScript@4afcd809]" started-at="2025-10-07T10:52:09 IST" name="flushReport" finished-at="2025-10-07T10:52:10 IST" duration-ms="1047" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- flushReport -->
