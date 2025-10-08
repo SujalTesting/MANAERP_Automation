@@ -9,6 +9,7 @@
           <include name="tearDown"/>
           <include name="flushReport"/>
           <include name="testLoginAndVerifyHomePage"/>
+          <include name="testFillProjectSetupStep1"/>
         </methods>
       </class> <!-- TestScript -->
     </classes>

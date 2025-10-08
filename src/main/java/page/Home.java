@@ -4,6 +4,7 @@ import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -74,6 +75,23 @@ public class Home {
         }
 
         
+    }
+
+    /**
+     * Navigates from the home/dashboard page to the project creation screen
+     * by clicking the 'Add Project' button.
+     */
+    public void navigateToProjectCreation() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        
+        // Using elementToBeClickable is more robust for buttons as it checks for
+        // both visibility and enabled state.
+        // NOTE: If a unique ID or data-testid is available, it would be a more stable locator.
+        By addProjectButtonLocator = By.xpath("//button[normalize-space()='Add Project']");
+        
+        WebElement addProjectButton = wait.until(ExpectedConditions.elementToBeClickable(addProjectButtonLocator));
+        
+        addProjectButton.click();
     }
 }      
 
