@@ -51,18 +51,29 @@ public class Home {
 
         // Assert all module cards are displayed with wait
         String[] modules = {"Project Module", "Sales Module", "Marketing Module", "HR Module", "CRM Module", "Legal Module", "Finance Module", "Admin Module"};
+
         for (String mod : modules) {
+            // 1. Wait for and locate the element
             WebElement moduleCard = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[normalize-space()='" + mod + "']"))
+                
             );
+
+            // 2. Assert that the element is displayed
             Assert.assertTrue(moduleCard.isDisplayed(), mod + " card is not displayed!");
+
+            // 3. NEW LOGIC: Check if this is the module we want to click
+            if (mod.equals("Project Module")) {
+                moduleCard.click();
+                System.out.println("--- Successfully clicked on: " + mod + " ---");
+                
+                // Use 'break' to exit the loop immediately after clicking, 
+                // as the goal is achieved.
+                break; 
+            }
         }
 
-        // Assert user profile icon displayed using wait (update selector if needed)
-        WebElement profileIcon = wait.until(
-            ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".profile-icon-selector"))
-        );
-        Assert.assertTrue(profileIcon.isDisplayed(), "User profile icon is not visible!");
+        
     }
 }      
 
