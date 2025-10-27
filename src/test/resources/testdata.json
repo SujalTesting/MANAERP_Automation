@@ -1,0 +1,92 @@
+{
+  "project": {
+    "testId": "FULL_PROJECT_SETUP_TEST",
+    
+    "basicDetails": {
+      "projectType": "Plots",
+      "projectName": "The Aqlooellq",
+      "projectUrl": "https://apextowers.com",
+      "marketedBy": "XYZ Real Estate",
+      "logoFilePath": "C:\\Users\\pavan\\Downloads\\Apartment Building Exterior Design Ideas _ Construction Point Blog.png" 
+    },
+    
+    "projectExtent": {
+      "isConverterUsed": "Yes", 
+      "singleValue": "22254",
+      "value1": "5",
+      "unit1": "Acre",
+      "value2": "20",
+      "unit2": "Hectare"
+    },
+    
+    "saleableArea": {
+      "isConverterUsed": "No", 
+      "singleValue": "20000",
+	  "value1": "4",
+	  	  "unit1": "Hectare",
+	  	  "value2": "15",
+	  	  "unit2": "Square yard"
+	},
+    
+    "approvals": {
+      "planningApprovalStatus": "Yes",
+      "planningAuthorityName": "Noida Authority",
+      "approvalNumber": "dream123",
+      "approvalDate": "Choose Monday, October 20th, 2025", 
+      
+      "reraApprovalStatus": "Yes",
+      "reraNumber": "rera456",
+      "reraStartDate": "Choose Sunday, October 20th, 2025",
+      "reraEndDate": "Choose Monday, November 10th, 2025"
+    },
+	
+	"bankDetails": {
+	  "banks": ["Sipra Technologies"]
+	},
+	
+	"locationDetails": {
+	    "pincode": "560100",
+	    "address": "H.No 12-34, Green Avenue Colony, Bangalore"
+	},
+	
+	"costSheet": {
+	    "basePricePerSqft": "5000",
+	    "standardTaxRate": "18"
+    },
+	
+	"addCharges": {
+		    "charges": [
+		        {
+		            "chargesFor": "Maintenance",
+		            "category": "Additional Charges",
+		            "costType": "Percentage",
+		            "amount": "21111",
+		            "tax": "18%"
+		        },
+		        {
+		            "chargesFor": "Car Parking",
+		            "category": "Unit charges",
+		            "costType": "Fixed",
+		            "amount": "21111",
+		            "tax": "18%"
+		        }
+		    ]
+		},
+		
+		"chargeOperations": {
+			"chargeToDelete": {
+			        "chargeName": "Car Parking",
+			        "modalConfirmationAction": "Delete" // or "Cancel"
+			    }, 
+				"chargeToEdit": "Maintenance",  
+						    "updatedChargeData": {
+						        "chargesFor": "Booking Amount",
+						        "category": "Unit charges",
+						        "costType": "Fixed",
+						        "amount": "50000",
+						        "tax": "5%"
+				        }
+				    }
+				}
+	  
+}

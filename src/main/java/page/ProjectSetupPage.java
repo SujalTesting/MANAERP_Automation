@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 public class ProjectSetupPage {
 
@@ -69,25 +71,112 @@ public class ProjectSetupPage {
 
     private By calendarMonthDropdown = By.xpath("//div[@role='dialog']//select[1]");
     private By calendarYearDropdown = By.xpath("//div[@role='dialog']//select[2]");
+    
+    public final By PINCODE_FIELD = By.name("pincode");
+    public final By ADDRESS_FIELD = By.name("address");
+    public final By CREATE_BUTTON = By.xpath("//button[@data-testid='btn-create' or text()='Create']");
+    
+ // Locators for Cost Sheet
+    public By NEXT_COST_SETUP_BTN = By.xpath("//button[normalize-space(span)='Next: Cost Setup']");
+    public final By ADD_PHASE_BTN = By.xpath("//button[normalize-space(text())='Add Phase']");
+    public final By BASE_PRICE_FIELD = By.id("basePrice");
+    public final By STANDARD_TAX_FIELD = By.id("baseGST");
+    public final By SAVE_UNIT_PRICING_BTN = By.xpath("//button[normalize-space(text())='Save Unit Pricing']");
+    
+ // ⭐ NEW LOCATORS for Add Charges Modal
+    private final By ADD_CHARGES_BTN = By.xpath("//button[@data-testid='btn-add-charges']");
+    
+    // Using XPath with normalize-space to find the parent div or button relative to the label
+    private final By CHARGES_FOR_DROPDOWN = By.xpath("//label[normalize-space(text())='Charges For*']/following-sibling::button");
+    private final By CATEGORY_DROPDOWN = By.xpath("//label[normalize-space(text())='Category*']/following-sibling::button");
+    private final By COST_TYPE_DROPDOWN = By.xpath("//label[normalize-space(text())='Cost Type*']/following-sibling::button");
+    private final By TAX_DROPDOWN = By.xpath("//label[normalize-space(text())='Tax*']/following-sibling::button");
+    
+    // Amount field has a stable ID or placeholder
+    private final By AMOUNT_FIELD = By.xpath("//input[@placeholder='Enter Amount']");
+    
+    // The final "Add Charge" button inside the modal
+    private final By ADD_CHARGE_MODAL_BTN = By.xpath("//button[@data-testid='btn-add-charge-3' or normalize-space(text())='Add Charge']");
+    private final By CHARGES_TABLE_ROWS = By.xpath("//div[normalize-space(text())='More Charges']/following-sibling::div[contains(@class, 'table-body')]//div[contains(@class, 'grid-cols-7')]");
+    
+    private final By UPDATE_CHARGE_BUTTON = By.cssSelector("[data-testid^='btn-update-charge-']"); // The new robust locator
+    private final By EDIT_OPTION_IN_MENU = By.xpath("//*[normalize-space(text())='Edit' and not(self::td) and not(self::th)]");
+    
+    // Function to find the action menu button (three dots) by charge name
+    private final Function<String, By> ACTION_MENU_BUTTON_BY_NAME = (name) -> 
+        By.xpath(String.format("//td[normalize-space(text())='%s']/ancestor::tr//td[last()]//button", name));
 
+    // Placeholders for modal fields (assuming standard HTML SELECT tags for the modal dropdowns)
+//    private final By CHARGES_FOR_DROPDOWN = By.name("chargesFor");
+//    private final By CATEGORY_DROPDOWN = By.name("category");
+//    private final By COST_TYPE_DROPDOWN = By.name("costType");
+//    private final By AMOUNT_FIELD = By.id("amount");
+//    private final By TAX_DROPDOWN = By.name("tax"); 
+    private final By ALL_CHARGE_NAME_CELLS = By.xpath("//table/tbody/tr/td[1]"); // Adjust based on your table structure
+//    private final By ADD_CHARGES_BTN = By.xpath("//button[contains(text(), 'Add Charges')]");
+//    private final By ADD_CHARGE_MODAL_BTN = By.xpath("//div[@role='dialog']//button[contains(text(), 'Add Charge')]");
+    
     // ======================= CONSTRUCTOR =======================
     public ProjectSetupPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         this.js = (JavascriptExecutor) driver;
     }
+    
+    public WebDriver getDriver() {
+        return this.driver;
+    }
 
     // ======================= MASTER ACTION =======================
-    public void fillEntireForm(ProjectDataModal data) {
-        selectProjectType(data.getBasicDetails().getProjectType());
-        enterProjectName(data.getBasicDetails().getProjectName());
+    public void fillEntireForm(ProjectDataModal data) throws InterruptedException, RuntimeException, TimeoutException {
+    	enterProjectName(data.getBasicDetails().getProjectName());
+        // 2️⃣ Immediately assert it
+        String enteredName = driver.findElement(projectNameField).getAttribute("value").trim();
+        if (!enteredName.equals(data.getBasicDetails().getProjectName())) {
+            throw new RuntimeException("Project Name mismatch! Expected: " +
+                    data.getBasicDetails().getProjectName() + ", Found: " + enteredName);
+        }
+    	selectProjectType(data.getBasicDetails().getProjectType());
         handleProjectExtent(data.getProjectExtent());
         handleSaleableArea(data.getSaleableArea());
         enterProjectWebsiteURL(data.getBasicDetails().getProjectUrl());
         enterMarketedBy(data.getBasicDetails().getMarketedBy());
         handleApprovals(data.getApprovals());
         handleBankSelection(data.getBankDetails());
+        fillLocationThenCreate(data.getLocationDetails());
+        fillCostSheet(data.getCostSheet());
+        handleAddCharges(data.getAddCharges());
+        handleChargeMasterActions(data);
+    }
+    
+    public void handleChargeMasterActions(ProjectDataModal data) throws RuntimeException, TimeoutException {
+        ProjectDataModal.ChargeOperations ops = data.getChargeOperations();
 
+        if (ops == null) {
+            System.out.println("⚠️ No charge operations (Edit/Delete) specified in JSON data.");
+            return;
+        }
+
+        // --- DELETE OPERATION ---
+        // ⚠️ Logic updated to use the new object structure
+        if (ops.getChargeToDelete() != null) {
+            
+            // Extract data from the new object
+            String nameToDelete = ops.getChargeToDelete().getChargeName(); 
+            String modalAction = ops.getChargeToDelete().getModalConfirmationAction(); 
+            
+            System.out.println("Executing DELETE operation for charge: " + nameToDelete + " (Confirming with: " + modalAction + ")");
+            
+            // Call the updated method
+            deleteChargeByName(nameToDelete, modalAction); 
+        }
+
+        // --- EDIT OPERATION ---
+        if (ops.getChargeToEdit() != null && ops.getUpdatedChargeData() != null) {
+            String nameToEdit = ops.getChargeToEdit();
+            System.out.println("Executing EDIT operation for charge: " + nameToEdit);
+            editChargeByName(nameToEdit, ops.getUpdatedChargeData());
+        }
     }
 
     // ======================= PROJECT EXTENT (Example Structure to Follow) =======================
@@ -210,61 +299,32 @@ public class ProjectSetupPage {
                 return;
             }
 
-            List<String> bankList = bankData.getBanks();
+            // 🔹 Take first bank only
+            String bankName = bankData.getBanks().get(0).trim();
+            System.out.println("⬇️ Selecting bank: " + bankName);
 
-            for (int i = 0; i < bankList.size(); i++) {
-                String bankName = bankList.get(i).trim();
-                boolean found = false;
+            // 🔹 Wait for dropdown and open
+            WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(bankDropdown));
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", dropdown);
+            js.executeScript("arguments[0].click();", dropdown);  // safer click via JS
+            Thread.sleep(800); // wait for options to load
 
-                // 🔹 Re-find dropdown each time to avoid stale element
-                WebElement dropdown = wait.until(ExpectedConditions.presenceOfElementLocated(bankDropdown));
-                js.executeScript("arguments[0].scrollIntoView({block:'center'});", dropdown);
-                wait.until(ExpectedConditions.elementToBeClickable(dropdown));
-                js.executeScript("arguments[0].click();", dropdown);
-                System.out.println("⬇️ Opened dropdown to select bank: " + bankName);
+            // 🔹 Find and click the option safely
+            By optionLocator = By.xpath("//div[@role='option']//span[normalize-space()='" + bankName + "']");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+            WebElement option = wait.until(ExpectedConditions.elementToBeClickable(optionLocator));
 
-                // 🔹 Wait for dropdown options to appear
-                By optionsContainer = By.xpath("//div[@role='listbox']");
-                wait.until(ExpectedConditions.visibilityOfElementLocated(optionsContainer));
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", option);
+            js.executeScript("arguments[0].click();", option); // use JS click instead of normal click
 
-                // 🔹 Loop and scroll through options until bank is found
-                for (int j = 0; j < 15; j++) {
-                    List<WebElement> allOptions = driver.findElements(By.xpath("//div[@role='option']//span"));
-                    for (WebElement option : allOptions) {
-                        if (option.getText().trim().equalsIgnoreCase(bankName)) {
-                            js.executeScript("arguments[0].scrollIntoView({block:'center'});", option);
-                            wait.until(ExpectedConditions.elementToBeClickable(option)).click();
-                            System.out.println("✅ Selected bank: " + bankName);
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (found) break;
-
-                    // Scroll dropdown down if bank not found yet
-                    js.executeScript("arguments[0].scrollBy(0, 200);", driver.findElement(optionsContainer));
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(optionsContainer));
-                }
-
-                if (!found) {
-                    System.out.println("❌ Bank not found in dropdown: " + bankName);
-                }
-
-                // 🔹 Close dropdown safely
-                js.executeScript("document.body.click();");
-
-                // 🔹 Wait until dropdown is fully closed
-                wait.until(ExpectedConditions.attributeToBe(dropdown, "aria-expanded", "false"));
-            }
-
-            System.out.println("✅ All banks selected successfully: " + bankList);
+            System.out.println("✅ Selected bank successfully: " + bankName);
 
         } catch (Exception e) {
-            System.out.println("❌ Error selecting banks: " + e.getMessage());
+            System.out.println("❌ Error selecting bank: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
     
     public List<String> getSelectedBanks() {
         List<String> selectedBanks = new ArrayList<>();
@@ -275,7 +335,310 @@ public class ProjectSetupPage {
         return selectedBanks;
     }
 
+ // ======================= LOCATION DETAILS =======================
+    public void fillLocationThenCreate(ProjectDataModal.LocationDetails data) {
+        try {
+            // Fill Pincode
+            WebElement pincodeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("pincode")));
+            pincodeField.clear();
+            pincodeField.sendKeys(data.getPincode());
+
+            // small wait for UI to process inputs
+            Thread.sleep(5000);
+
+            // Fill Address
+            WebElement addressField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("address")));
+            addressField.clear();
+            addressField.sendKeys(data.getAddress());
+
+            // Click Create button
+            WebElement createBtn = wait.until(ExpectedConditions.elementToBeClickable(CREATE_BUTTON));
+            createBtn.click();
+            System.out.println("✅ Pincode & Address filled, and Create button clicked successfully.");
+
+            // Wait for success message
+            WebElement successMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Project added successfully')]")));
+            System.out.println("🎉 " + successMsg.getText());
+
+        } catch (Exception e) {
+            System.out.println("❌ Error in filling LocationDetails: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Method to fill Base Price & GST
+    public void fillCostSheet(ProjectDataModal.CostSheetDetails costSheet) {
+        try {
+        	wait.until(ExpectedConditions.visibilityOfElementLocated(NEXT_COST_SETUP_BTN)).click();
+        	
+            wait.until(ExpectedConditions.visibilityOfElementLocated(BASE_PRICE_FIELD))
+                .sendKeys(costSheet.getBasePricePerSqft());
+            
+            Thread.sleep(5000);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(STANDARD_TAX_FIELD))
+                .sendKeys(costSheet.getStandardTaxRate());
+
+            System.out.println("✅ Cost Sheet values entered: Base Price = " 
+                + costSheet.getBasePricePerSqft() + ", GST = " + costSheet.getStandardTaxRate());
+
+            wait.until(ExpectedConditions.elementToBeClickable(SAVE_UNIT_PRICING_BTN)).click();
+            System.out.println("✅ Save Unit Pricing clicked successfully");
+
+            // Optional: wait until some confirmation appears
+            Thread.sleep(5000);
+
+        } catch (Exception e) {
+            System.out.println("❌ Error filling Cost Sheet: " + e.getMessage());
+        }
+    }
+    
+ // ======================= ADD CHARGES =======================
+    public void handleAddCharges(ProjectDataModal.AddChargesDetails data) {
+        if (data == null || data.getCharges() == null || data.getCharges().isEmpty()) {
+            System.out.println("⚠️ No additional charges provided in JSON. Skipping Add Charges.");
+            return;
+        }
+
+        System.out.println("▶️ Starting to add " + data.getCharges().size() + " additional charges...");
+        ProjectDataModal.Charge lastCharge = null; // Variable to store the last charge added
+
+        for (ProjectDataModal.Charge charge : data.getCharges()) {
+            try {
+                // ... (Steps 1 through 7: Adding the charge - code unchanged) ...
+                
+                // 1. Click the main 'Add Charges' button to open the modal
+                clickElement(ADD_CHARGES_BTN);
+                // Wait for a visible element in the modal to confirm it's open
+                wait.until(ExpectedConditions.visibilityOfElementLocated(ADD_CHARGE_MODAL_BTN));
+                
+                // 2. Select Charges For
+                selectCustomDropdown(CHARGES_FOR_DROPDOWN, charge.getChargesFor());
+                
+                // 3. Select Category
+                selectCustomDropdown(CATEGORY_DROPDOWN, charge.getCategory());
+                
+                // 4. Select Cost Type
+                selectCustomDropdown(COST_TYPE_DROPDOWN, charge.getCostType());
+                
+                // 5. Enter Amount
+                WebElement amountField = wait.until(ExpectedConditions.presenceOfElementLocated(AMOUNT_FIELD));
+                amountField.sendKeys(charge.getAmount());
+                
+                // 6. Select Tax Rate (Ensure it matches the UI format, e.g., "18%")
+                String taxRate = charge.getTax().trim().endsWith("%") ? charge.getTax().trim() : charge.getTax().trim() + "%";
+                selectCustomDropdown(TAX_DROPDOWN, taxRate);
+                
+                // 7. Click Add Charge button in the modal
+                clickElement(ADD_CHARGE_MODAL_BTN);
+                
+                System.out.println("✅ Successfully added charge: " + charge.getChargesFor());
+                
+                // Small wait for the row to be added to the table and modal to close
+                try { Thread.sleep(1000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); } 
+                
+                lastCharge = charge; // Update the last charge after successful addition
+
+            } catch (Exception e) {
+                System.out.println("❌ Failed to add charge for '" + charge.getChargesFor() + "': " + e.getMessage());
+                throw new RuntimeException("Failed to add charge: " + charge.getChargesFor(), e);
+            }
+        }
+        System.out.println("✅ Completed adding all charges.");
+
+        // ⭐ NEW ROBUST SCROLLING: Scroll the action button of the last charge into view.
+        if (lastCharge != null) {
+            String lastChargeName = lastCharge.getChargesFor();
+            // Locate the action button for the last added charge
+            String actionButtonXPath = String.format(
+                "//td[normalize-space(text())='%s']/ancestor::tr//td[last()]//button", lastChargeName
+            );
+            
+            try {
+                WebElement actionButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(actionButtonXPath)));
+                
+                // Use JavaScript to scroll the element directly into view
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actionButton);
+                System.out.println("➡️ Scrolled action button for '" + lastChargeName + "' into view.");
+                
+                // A final small pause after scrolling for UI redraw
+                Thread.sleep(500);
+
+            } catch (Exception e) {
+                System.out.println("⚠️ Could not scroll action button for '" + lastChargeName + "' into view: " + e.getMessage());
+                // Fail softly here, the test will catch the failure in deleteChargeByName if it's still not visible.
+            }
+        }
+    }
    
+    public void deleteChargeByName(String chargeName, String modalAction) { // <-- UPDATED SIGNATURE
+        // Locator for the action button (three dots)
+        String actionButtonXPath = String.format(
+            "//td[normalize-space(text())='%s']/ancestor::tr//td[last()]//button", chargeName
+        );
+        
+        // Locator for the 'Delete' option in the dropdown menu
+        String deleteOptionXPath = "//*[normalize-space(text())='Delete' and not(self::td) and not(self::th)]"; 
+        
+        // ⭐ NEW: Specific locator for the confirmation modal button
+        String confirmButtonXPath = String.format("//button[normalize-space(text())='%s']", modalAction);
+        
+        try {
+            By actionButtonLocator = By.xpath(actionButtonXPath);
+            
+            // Step 1: Click the action button (Dropdown Trigger)
+            WebElement actionButton = wait.until(ExpectedConditions.elementToBeClickable(actionButtonLocator));
+            // Use JS executor for reliability
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actionButton);
+
+            // Pause for menu to fully render
+            try { Thread.sleep(500); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+            // Step 2: Click the 'Delete' option in the dropdown menu
+            By deleteOptionLocator = By.xpath(deleteOptionXPath);
+            System.out.println("Attempting to locate Delete option with XPath: " + deleteOptionXPath);
+            
+            WebElement deleteOption = wait.until(ExpectedConditions.elementToBeClickable(deleteOptionLocator));
+            // Use JS click for reliability
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteOption);
+
+            System.out.println("📝 Clicked 'Delete' option for charge: " + chargeName);
+
+            // Step 3: Handle the confirmation modal (Click Delete or Cancel)
+            By confirmButtonLocator = By.xpath(confirmButtonXPath); 
+            System.out.println("Attempting to click modal button: " + modalAction);
+            
+            WebElement confirmButton = wait.until(ExpectedConditions.elementToBeClickable(confirmButtonLocator));
+            confirmButton.click();
+            
+            System.out.println("✅ Executed modal action: " + modalAction + " for charge: " + chargeName);
+            
+            // Wait for the confirmation modal to disappear
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(confirmButtonLocator));
+            
+        } catch (Exception e) {
+            System.out.println("❌ Error performing delete operation on charge '" + chargeName + "': " + e.getMessage());
+            throw new RuntimeException("Failed to perform delete operation on charge: " + chargeName, e);
+        }
+    }
+
+    /**
+     * Edits a charge in the table based on its current name and updates its values.
+     */
+    public void editChargeByName(String chargeName, ProjectDataModal.Charge updatedChargeData) throws TimeoutException {
+        
+        By actionMenuLocator = ACTION_MENU_BUTTON_BY_NAME.apply(chargeName);
+        
+        try {
+            WebElement actionButton = wait.until(ExpectedConditions.presenceOfElementLocated(actionMenuLocator));
+            
+            // ⭐ FIX 1: Scroll the element into view and use JS Executor to click the action button
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", actionButton);
+            wait.until(ExpectedConditions.elementToBeClickable(actionButton)); 
+            
+            try {
+                actionButton.click();
+            } catch (org.openqa.selenium.ElementClickInterceptedException e) {
+                System.out.println("⚠️ Click intercepted! Using JavaScript Executor to force click the action button.");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actionButton);
+            }
+
+            // 🚨 CRITICAL PAUSE: Give time for the menu to fully render in the DOM (as done in delete method)
+            try { Thread.sleep(500); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+            // ⭐ FIX 2: Use JS Executor to click the 'Edit' option in the dropdown menu
+            // Reusing the general locator structure for menu items for robustness
+            String editOptionXPath = "//*[normalize-space(text())='Edit' and not(self::td) and not(self::th)]"; 
+            By editOptionLocator = By.xpath(editOptionXPath);
+            
+            WebElement editOption = wait.until(ExpectedConditions.elementToBeClickable(editOptionLocator));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", editOption); // Force click
+            
+            System.out.println("📝 Clicked 'Edit' option for charge: " + chargeName);
+
+            // Wait for the 'Edit Charge' modal to appear (using the update button visibility)
+            wait.until(ExpectedConditions.visibilityOfElementLocated(UPDATE_CHARGE_BUTTON));
+
+            // Helper function to handle Select dropdowns (Kept as per your original code)
+            Function<By, Select> getSelectElement = (by) -> {
+                WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+                return new Select(element);
+            };
+
+            // Update the fields in the modal
+            if (updatedChargeData.getChargesFor() != null) {
+                // Note: If this is a custom dropdown, use selectCustomDropdown, not Select.selectByVisibleText
+                getSelectElement.apply(CHARGES_FOR_DROPDOWN).selectByVisibleText(updatedChargeData.getChargesFor());
+            }
+
+            if (updatedChargeData.getCategory() != null) {
+                getSelectElement.apply(CATEGORY_DROPDOWN).selectByVisibleText(updatedChargeData.getCategory());
+            }
+
+            if (updatedChargeData.getCostType() != null) {
+                getSelectElement.apply(COST_TYPE_DROPDOWN).selectByVisibleText(updatedChargeData.getCostType());
+            }
+
+            if (updatedChargeData.getAmount() != null) {
+                WebElement amountField = wait.until(ExpectedConditions.visibilityOfElementLocated(AMOUNT_FIELD));
+                amountField.clear();
+                amountField.sendKeys(updatedChargeData.getAmount());
+            }
+
+            if (updatedChargeData.getTax() != null) {
+                // Ensure the tax value includes the '%' if required by the selectByVisibleText method
+                String taxValue = updatedChargeData.getTax().trim().endsWith("%") ? updatedChargeData.getTax().trim() : updatedChargeData.getTax().trim() + "%";
+                getSelectElement.apply(TAX_DROPDOWN).selectByVisibleText(taxValue);
+            }
+            
+            // Click the 'Update Charge' button
+            driver.findElement(UPDATE_CHARGE_BUTTON).click();
+            
+            // Wait for the modal to disappear
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(UPDATE_CHARGE_BUTTON));
+            
+            System.out.println("✅ Charge '" + chargeName + "' successfully edited.");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error during EDIT operation for charge '" + chargeName + "': " + e.getMessage());
+            throw new RuntimeException("Failed to edit charge: " + chargeName, e);
+        }
+    }
+    
+    // =========================================================================
+    // VERIFICATION METHODS
+    // =========================================================================
+    
+    /**
+     * Retrieves the list of names for all charges currently visible in the table.
+     * @return A List of String containing the charge names.
+     */
+    public List<String> getAddedChargeNames() {
+        List<String> names = new ArrayList<>();
+        
+        // Use a try-catch block to handle the case where the table is initially empty
+        try {
+            // Wait for at least one charge name cell to be present
+            wait.until(ExpectedConditions.presenceOfElementLocated(ALL_CHARGE_NAME_CELLS));
+        } catch (Exception e) {
+            // If the wait fails (e.g., table is empty), return an empty list
+            System.out.println("No charges found in the table.");
+            return names;
+        }
+        
+        List<WebElement> chargeElements = driver.findElements(ALL_CHARGE_NAME_CELLS);
+        
+        for (WebElement element : chargeElements) {
+            String name = element.getText().trim();
+            if (!name.isEmpty()) {
+                names.add(name);
+            }
+        }
+        
+        System.out.println("Charges found in UI: " + names);
+        return names;
+    }
+
     // ======================= HELPERS =======================
     
     private void handleYesNoDropdown(By dropdownButton, String value) {
@@ -392,8 +755,17 @@ public class ProjectSetupPage {
 
     // ======================= GETTERS FOR ASSERTION =======================
     public String getProjectNameValue() {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(projectNameField));
-        return element.getAttribute("value").trim();
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(30))
+                .until(driver -> {
+                    WebElement el = driver.findElement(projectNameField); // <-- Fails here
+                    if (el.isDisplayed()) {
+                        return el.getAttribute("value").trim();
+                    } else return null;
+                });
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get Project Name: " + e.getMessage(), e);
+        }
     }
 
     public String getProjectExtentValue() {

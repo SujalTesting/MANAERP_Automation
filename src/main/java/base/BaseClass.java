@@ -60,6 +60,7 @@ public class BaseClass {
         }
     }
 
+    
     @AfterSuite(alwaysRun = true)
     public void teardownSuite() {
         WebDriver driver = driverThread.get();
