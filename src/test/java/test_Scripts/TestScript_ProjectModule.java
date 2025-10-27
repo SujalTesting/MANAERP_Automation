@@ -1,16 +1,12 @@
 package test_Scripts;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
 
 import base.BaseClass;
 import dataModels.ProjectDataModal;
-import dataModels.ProjectDataModal.ApprovalDetails;
 import page.Home;
 import page.ProjectSetupPage;
 import utils.JsonDataReader;
