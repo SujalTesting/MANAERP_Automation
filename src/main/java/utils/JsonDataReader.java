@@ -1,29 +1,41 @@
 package utils;
 
-import base.ProjectDataModal;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import base.TestDataRoot;
+import dataModels.ProjectDataModal;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
 public class JsonDataReader {
 
+    // ✅ JSON path in resources folder
+    private static final String PROJECT_JSON_PATH = "src/test/resources/testdata.json";
+
     /**
-     * Reads projectdata.json and returns a ProjectDataModal object.
-     * @return ProjectDataModal object with data from the JSON file.
+     * Reads the entire JSON file and returns the root object (TestDataRoot)
+     */
+    public static TestDataRoot getAllTestData() {
+        Gson gson = new Gson();
+        try (Reader reader = new FileReader(PROJECT_JSON_PATH)) {
+            return gson.fromJson(reader, TestDataRoot.class);
+        } catch (IOException | JsonSyntaxException | JsonIOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to read JSON file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Reads only the 'project' node from JSON and returns ProjectDataModal
      */
     public static ProjectDataModal getProjectData() {
-        String filePath = "src/main/java/utils/projectData.json";
-        Gson gson = new Gson();
-        ProjectDataModal projectData = null;
-
-        try (Reader reader = new FileReader(filePath)) {
-            // Convert JSON file to a Java object
-            projectData = gson.fromJson(reader, ProjectDataModal.class);
-        } catch (IOException e) {
-            System.err.println("Error reading the JSON file: " + e.getMessage());
-            e.printStackTrace();
+        TestDataRoot root = getAllTestData();
+        if (root == null || root.getProject() == null) {
+            throw new RuntimeException("Project data is missing in JSON file.");
         }
-        return projectData;
+        return root.getProject();
     }
 }
