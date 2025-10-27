@@ -4,8 +4,6 @@ import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -13,49 +11,65 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 import page.Login;
+import utils.ExtentTestManager;
 
 public class BaseClass {
-    public WebDriver driver;
+
+    // ✅ Thread-safe WebDriver for parallel execution
+    private static ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+
+    // ✅ Shared ExtentReports instance
     public static ExtentReports extent;
-    public static ExtentTest test;
 
-    @BeforeSuite
-    public void setupReport() {
-    	extent = ExtentReportManager.getInstance();
-    	
-    	driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://manaerp-qa.netlify.app//");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        
+    // ✅ Current test instance (public so listener can access)
+    public ExtentTest test;
 
-        Login loginPage = new Login(driver);
-        
-        loginPage.enterUsername("admin-qa@braincellinfotech.ai");
-        loginPage.enterPassword("redefine@123");
-        loginPage.clickRememberMe();
-        loginPage.clickSubmitButton();
+    // -------------------------------------------------------------------------------------
+    // 🔹 Getters
+    public WebDriver getDriver() {
+        return driverThread.get();
     }
 
-    @AfterMethod
-    public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            test.fail("Test Failed: " + result.getThrowable());
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
-            test.pass("Test Passed");
-        } else {
-            test.skip("Test Skipped");
+    public static ExtentReports getExtent() {
+        return extent;
+    }
+    // -------------------------------------------------------------------------------------
+
+    @BeforeSuite(alwaysRun = true)
+    public void setupSuite() {
+        // --- Initialize ExtentReports ---
+        extent = ExtentReportManager.createInstance();
+        ExtentTestManager.setExtent(extent);
+
+        // --- Initialize WebDriver ---
+        WebDriver driver = new ChromeDriver();
+        driverThread.set(driver);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://manaerp-qa.netlify.app/");
+
+        // --- Login Step ---
+        try {
+            Login loginPage = new Login(driver);
+            loginPage.enterUsername("admin-qa@braincellinfotech.ai");
+            loginPage.enterPassword("redefine@123");
+            loginPage.clickRememberMe();
+            loginPage.clickSubmitButton();
+        } catch (Exception e) {
+            System.err.println("Login failed: " + e.getMessage());
         }
     }
 
-//    @AfterClass
-//    public void closeBrowser() {
-//        driver.quit();
-//    }
+    @AfterSuite(alwaysRun = true)
+    public void teardownSuite() {
+        WebDriver driver = driverThread.get();
+        if (driver != null) {
+            driver.quit();
+            driverThread.remove();
+        }
 
-    @AfterSuite
-    public void flushReport() {
-        extent.flush();
+        if (extent != null) {
+            extent.flush();
+        }
     }
 }
-

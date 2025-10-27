@@ -8,35 +8,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ExtentReportManager {
+
     private static ExtentReports extent;
-    
-    public static ExtentReports getInstance() {
+
+    public static ExtentReports createInstance() {
         if (extent == null) {
-            createInstance();
+            // Create report file with timestamp
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String reportPath = System.getProperty("user.dir") + "/test-output/ExtentReport_" + timestamp + ".html";
+
+            ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+            spark.config().setDocumentTitle("Automation Test Report");
+            spark.config().setReportName("Selenium Test Execution Report");
+            spark.config().setTheme(Theme.STANDARD);
+
+            extent = new ExtentReports();
+            extent.attachReporter(spark);
+            extent.setSystemInfo("Project", "Your Project Name");
+            extent.setSystemInfo("Tester", "Pavan Kumar");
+            extent.setSystemInfo("Environment", "QA");
         }
+
         return extent;
     }
 
-    public static ExtentReports createInstance() {
-        // Generate a unique report name with timestamp
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String reportPath = System.getProperty("user.dir") + "/reports/ExtentReport_For_ProjectModule_" + timestamp + ".html";
-
-        ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath);
-        sparkReporter.config().setDocumentTitle("Automation Test Report");
-        sparkReporter.config().setReportName("Functional Testing");
-        sparkReporter.config().setTheme(Theme.DARK);
-
-        extent = new ExtentReports();
-        extent.attachReporter(sparkReporter);
-        
-        // Add system information
-        extent.setSystemInfo("Tester", "Brain Cell QA Team");
-        extent.setSystemInfo("Environment", "QA");
-        extent.setSystemInfo("Tool", "Selenium Eclipse");
-        extent.setSystemInfo("Framework", "TestNG");
-        extent.setSystemInfo("Method", "Page Object Model");
-
+    public static ExtentReports getInstance() {
         return extent;
     }
 }

@@ -1,10 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>MANAERP_Automation</groupId>
-  <artifactId>MANAERP_AutomationCopy</artifactId>
+  <artifactId>MANAERP_Automation</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
   <dependencies>
+  
   
   <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 	<dependency>
@@ -34,6 +35,13 @@
 	    <version>5.3.0</version>
 	</dependency>
 	
+	<!-- Google Gson for JSON parsing -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+	
 	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
@@ -47,6 +55,17 @@
 	    <artifactId>log4j-core</artifactId>
 	    <version>3.0.0-beta2</version>
 	</dependency>
+	
+	<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>3.0.0-beta2</version> </dependency>
+    
+    <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version>
+</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 	<dependency>
@@ -62,12 +81,23 @@
 	    <artifactId>extentreports</artifactId>
 	    <version>5.1.1</version>
 	</dependency>
-
+ 
 	<dependency>
 		<groupId>RedefinERP</groupId>
 		<artifactId>RedefinERP</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
-  </dependencies>
+ 
+ <dependency>
+    <groupId>io.github.bonigarcia</groupId>
+    <artifactId>webdrivermanager</artifactId>
+    <version>5.9.2</version>
+</dependency>
+
+
+ </dependencies>
+
+  
+  
   
 </project>

@@ -1,0 +1,19 @@
+{
+  "testId": "SINGLE_PROJECT_CREATION_SUCCESS",
+  "projectName": "SIPRA APTS (Real)",
+  "projectType": "Apartment",
+  "pincode": "560068",
+  "expectedCity": "Bengaluru",
+  "projectExtent": "25000",
+  "saleableArea": "20000",
+  "projectUrl": "https://sipra.com",
+  "marketedBy": "Internal Sales Team",
+  "planningApprovalRequired": "Yes",
+  "planningAuthority": "MMRDA",
+  "approvalNumber": "MMRDA/P/2025/001",
+  "reraRequired": "Yes",
+  "reraNumber": "RERA/SIPRA/001",
+  "bankAccount": "HDFC Primary A/C",
+  "addressDetail": "No. 40, Electronics City Main Road, Bengaluru",
+  "isNegativeTest": false
+}
