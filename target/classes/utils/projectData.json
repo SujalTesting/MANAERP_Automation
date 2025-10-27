@@ -16,4 +16,12 @@
   "bankAccount": "HDFC Primary A/C",
   "addressDetail": "No. 40, Electronics City Main Road, Bengaluru",
   "isNegativeTest": false
+  
+  "blocks": [
+      {
+        "blockName": "Block A",
+        "expectedFloorCount": 6
+      }
+    ]
 }
+

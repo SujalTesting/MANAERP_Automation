@@ -1,5 +1,7 @@
 package base;
 
+import java.util.List;
+
 /**
  * Data model for a single Project Creation test run, deserialized from JSON.
  * Keys in this class must match the keys in the JSON file.
@@ -27,7 +29,21 @@ public class ProjectDataModal {
     private String pincode; 
     private String expectedCity; // Used for Pincode Sync Validation
 
-    private boolean isNegativeTest; 
+    private boolean isNegativeTest;
+    
+    // --- NEW: Data for Project Units (Step 2) ---
+    private List<Block> blocks; // <-- 2. ADD the list of blocks
+
+    // 3. ADD the inner class to define what a "Block" is
+    public static class Block {
+        private String blockName;
+        private int expectedFloorCount;
+
+        // Public getters for the Test Class to read this data
+        public String getBlockName() { return blockName; }
+        public int getExpectedFloorCount() { return expectedFloorCount; }
+    }
+    // --- END OF NEW SECTION ---
 
     // Constructor required by most JSON libraries (like Jackson or Gson)
     public ProjectDataModal() {} 
@@ -50,4 +66,7 @@ public class ProjectDataModal {
     public String getPincode() { return pincode; }
     public String getExpectedCity() { return expectedCity; }
     public boolean isNegativeTest() { return isNegativeTest; }
+    
+ // --- NEW: Getter for the blocks list ---
+    public List<Block> getBlocks() { return blocks; } // <-- 4. ADD a getter for the block list
 }
