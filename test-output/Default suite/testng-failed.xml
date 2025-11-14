@@ -3,12 +3,18 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="test_Scripts.TestScript_ProjectModule">
+      <class name="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript">
         <methods>
           <include name="setupSuite"/>
           <include name="testLoginAndVerifyHomePage"/>
+          <include name="testCostSetupOperations_ApartmentPlot"/>
+          <include name="testPaymentScheduleOperations_ApartmentPlot"/>
+          <include name="teardownSuite"/>
+          <include name="testFullProjectCreationAndChargeOperations"/>
+          <include name="testAccessAndOthersPageFlow"/>
+          <include name="testFullProjectUnitsPage_Plots"/>
         </methods>
-      </class> <!-- test_Scripts.TestScript_ProjectModule -->
+      </class> <!-- pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

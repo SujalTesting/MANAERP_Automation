@@ -1,0 +1,97 @@
+{
+ "project": {
+   "testId": "UPDATE_PROJECT_SETUP_TEST",
+		
+  "projectSelectionDetails": {
+    "projectName": "Cap",
+    "projectType": "Plots",
+    "pageNumber": 1
+  },
+  "basicDetails": {
+        "projectName": "Pillow",
+        "projectUrl": "https://apextowers.com",
+        "marketedBy": "XYZ Real Estate",
+        "logoFilePath": "C:\\Users\\pavan\\Downloads\\Apartment Building Exterior Design Ideas _ Construction Point Blog.png" 
+      },
+      
+      "projectExtent": {
+        "isConverterUsed": "Yes", 
+        "singleValue": "22254",
+        "value1": "5",
+        "unit1": "Acre",
+        "value2": "20",
+        "unit2": "Hectare"
+      },
+      
+      "saleableArea": {
+        "isConverterUsed": "No", 
+        "singleValue": "20000",
+  	  "value1": "4",
+  	  "unit1": "Hectare",
+  	  "unit2": "Square yard",
+  	  "value2": "15"
+  	},
+      
+      "approvals": {
+        "planningApprovalStatus": "Yes",
+        "planningAuthorityName": "Bangalore Development Authority (BDA)",
+        "approvalNumber": "dream123",
+        "approvalDate": "Choose Monday, October 20th, 2025", 
+        
+        "reraApprovalStatus": "Yes",
+        "reraNumber": "rera456",
+        "reraStartDate": "Choose Sunday, October 20th, 2025",
+        "reraEndDate": "Choose Monday, November 10th, 2025"
+      },
+  	
+  	"bankDetails": {
+  	  "banks": ["Sipra Technologies"]
+  	},
+  	
+  	"locationDetails": {
+  	    "pincode": "560100",
+  	    "address": "H.No 12-34, Green Avenue Colony, Bangalore"
+  	},
+	
+	"costSheet": {
+	      "basePricePerSqft": "6000",
+	      "standardTaxRate": "12",
+	      "baseConstructionPricePerSqft": "4000",
+	      "constructionTaxRate": "18"
+	    },
+	    
+	    "addCharges": {
+	      "charges": [
+	        {
+	          "chargesFor": "Test Data",
+	          "category": "Additional Charges",
+	          "costType": "Percentage",
+	          "amount": "21111",
+	          "tax": "18%"
+	        },
+	        {
+	          "chargesFor": "Test Data 1",
+	          "category": "Unit charges",
+	          "costType": "Fixed",
+	          "amount": "21111",
+	          "tax": "18%"
+	        }
+	      ]
+	    },
+	    
+	    "chargeOperations": {
+	      "chargeToDelete": {
+	        "chargeName": "Balcony and Garden Area",
+	        "modalConfirmationAction": "Delete"
+	      }, 
+	      "chargeToEdit": "Generator",  
+	      "updatedChargeData": {
+	        "chargesFor": "Booking Amount",
+	        "category": "Unit charges",
+	        "costType": "Fixed",
+	        "amount": "50000",
+	        "tax": "5%"
+	      }
+		 } 
+      }
+}

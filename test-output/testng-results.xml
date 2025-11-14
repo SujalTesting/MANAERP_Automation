@@ -1,36 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="1" failed="1" skipped="0">
+<testng-results ignored="0" total="6" passed="4" failed="1" skipped="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-10-07T12:17:12 IST" name="Default suite" finished-at="2025-10-07T12:17:14 IST" duration-ms="2724">
+  <suite started-at="2025-11-14T15:00:09 IST" name="Default suite" finished-at="2025-11-14T15:02:46 IST" duration-ms="157567">
     <groups>
     </groups>
-    <test started-at="2025-10-07T12:17:12 IST" name="Default test" finished-at="2025-10-07T12:17:14 IST" duration-ms="2724">
-      <class name="TestScript">
-        <test-method is-config="true" signature="setupReport()[pri:0, instance:TestScript@36fc695d]" started-at="2025-10-07T12:17:01 IST" name="setupReport" finished-at="2025-10-07T12:17:12 IST" duration-ms="10948" status="PASS">
+    <test started-at="2025-11-14T15:00:09 IST" name="Default test" finished-at="2025-11-14T15:02:46 IST" duration-ms="157567">
+      <class name="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript">
+        <test-method is-config="true" signature="setupSuite()[pri:0, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:00:03 IST" name="setupSuite" finished-at="2025-11-14T15:00:09 IST" duration-ms="6117" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- setupReport -->
-        <test-method signature="testLoginAndVerifyHomePage()[pri:1, instance:TestScript@36fc695d]" started-at="2025-10-07T12:17:12 IST" name="testLoginAndVerifyHomePage" finished-at="2025-10-07T12:17:14 IST" duration-ms="2650" status="PASS">
+        </test-method> <!-- setupSuite -->
+        <test-method signature="testLoginAndVerifyHomePage()[pri:1, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:00:09 IST" name="testLoginAndVerifyHomePage" description="Login and verify the user is on the dashboard." finished-at="2025-11-14T15:00:12 IST" duration-ms="2833" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testLoginAndVerifyHomePage -->
-        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:TestScript@36fc695d]" started-at="2025-10-07T12:17:14 IST" name="tearDown" finished-at="2025-10-07T12:17:14 IST" duration-ms="11" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=testLoginAndVerifyHomePage status=SUCCESS method=TestScript.testLoginAndVerifyHomePage()[pri:1, instance:TestScript@36fc695d] output={null}]]]>
-              </value>
-            </param>
-          </params>
+        <test-method signature="testFullProjectCreationAndChargeOperations()[pri:2, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:00:12 IST" name="testFullProjectCreationAndChargeOperations" description="Fills all project setup steps and performs charge Edit/Delete operations." finished-at="2025-11-14T15:00:33 IST" depends-on-methods="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testLoginAndVerifyHomePage" duration-ms="21766" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="flushReport()[pri:0, instance:TestScript@36fc695d]" started-at="2025-10-07T12:17:14 IST" name="flushReport" finished-at="2025-10-07T12:17:15 IST" duration-ms="805" status="PASS">
+        </test-method> <!-- testFullProjectCreationAndChargeOperations -->
+        <test-method signature="testFullProjectUnitsPage_Plots()[pri:3, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:00:33 IST" name="testFullProjectUnitsPage_Plots" description="Fills all project setup steps and performs charge Edit/Delete operations." finished-at="2025-11-14T15:01:13 IST" depends-on-methods="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testFullProjectCreationAndChargeOperations" duration-ms="39866" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testFullProjectUnitsPage_Plots -->
+        <test-method signature="testCostSetupOperations_ApartmentPlot()[pri:4, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:01:13 IST" name="testCostSetupOperations_ApartmentPlot" description="Fills all project setup steps and performs charge Edit/Delete operations." finished-at="2025-11-14T15:02:15 IST" depends-on-methods="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testFullProjectUnitsPage_Plots" duration-ms="61463" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCostSetupOperations_ApartmentPlot -->
+        <test-method signature="testPaymentScheduleOperations_ApartmentPlot()[pri:5, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:02:15 IST" name="testPaymentScheduleOperations_ApartmentPlot" description="Handles Payment Schedule Add, Edit, and Delete operations for single-schedule projects (Apartment/Plot)." finished-at="2025-11-14T15:02:46 IST" depends-on-methods="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testCostSetupOperations_ApartmentPlot" duration-ms="31302" status="FAIL">
+          <exception class="java.lang.RuntimeException">
+            <message>
+              <![CDATA[Failed to add charge: Maintenance]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.RuntimeException: Failed to add charge: Maintenance
+at pom.pageobjectclasses.plots.projectmodule.PaymentSchedule.addNewSchedules(PaymentSchedule.java:143)
+at pom.pageobjectclasses.plots.projectmodule.PaymentSchedule.newAddSchedules(PaymentSchedule.java:62)
+at pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testPaymentScheduleOperations_ApartmentPlot(WholeProjectCreationTestScript.java:113)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
+at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
+at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
+at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
+at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
+at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+at org.testng.TestRunner.privateRun(TestRunner.java:794)
+at org.testng.TestRunner.run(TestRunner.java:596)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+at org.testng.TestNG.runSuites(TestNG.java:1063)
+at org.testng.TestNG.run(TestNG.java:1031)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+Caused by: org.openqa.selenium.TimeoutException: Expected condition failed: waiting for presence of element located by: By.xpath: //input[@placeholder='Enter Payment Stage'] (tried for 30 second(s) with 500 milliseconds interval)
+at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
+at pom.pageobjectclasses.plots.projectmodule.PaymentSchedule.addNewSchedules(PaymentSchedule.java:112)
+... 28 more
+Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//input[@placeholder='Enter Payment Stage']"}
+  (Session info: chrome=142.0.7444.61)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.26.0', revision: '8ccf0219d7'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '23.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [263d7eb2dbea9f1cadd263b93024c734, findElement {using=xpath, value=//input[@placeholder='Enter Payment Stage']}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.61, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\pavan\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:65090}, goog:processID: 27264, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:65090/devtoo..., se:cdpVersion: 142.0.7444.61, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 263d7eb2dbea9f1cadd263b93024c734
+at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:501)
+at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:485)
+at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
+at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:545)
+at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
+at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
+at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:368)
+at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:362)
+at org.openqa.selenium.support.ui.ExpectedConditions$6.apply(ExpectedConditions.java:171)
+at org.openqa.selenium.support.ui.ExpectedConditions$6.apply(ExpectedConditions.java:168)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:203)
+... 29 more
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.RuntimeException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testPaymentScheduleOperations_ApartmentPlot -->
+        <test-method signature="testAccessAndOthersPageFlow()[pri:6, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:02:46 IST" name="testAccessAndOthersPageFlow" description="Handles document management (Upload/Delete) and user access management for all folders." finished-at="2025-11-14T15:02:46 IST" depends-on-methods="pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript.testPaymentScheduleOperations_ApartmentPlot" duration-ms="0" status="SKIP">
+          <exception class="java.lang.Throwable">
+            <message>
+              <![CDATA[Method WholeProjectCreationTestScript.testAccessAndOthersPageFlow()[pri:6, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8] depends on not successfully finished methods]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.Throwable: Method WholeProjectCreationTestScript.testAccessAndOthersPageFlow()[pri:6, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8] depends on not successfully finished methods
+at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:102)
+at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+at org.testng.TestRunner.privateRun(TestRunner.java:794)
+at org.testng.TestRunner.run(TestRunner.java:596)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+at org.testng.TestNG.runSuites(TestNG.java:1063)
+at org.testng.TestNG.run(TestNG.java:1031)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.Throwable -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAccessAndOthersPageFlow -->
+        <test-method is-config="true" signature="teardownSuite()[pri:0, instance:pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript@6b8ca3c8]" started-at="2025-11-14T15:02:47 IST" name="teardownSuite" finished-at="2025-11-14T15:02:48 IST" duration-ms="379" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardownSuite -->
-      </class> <!-- test_Scripts.TestScript_ProjectModule -->
+      </class> <!-- pom.testscripts.plots.projectmodule.WholeProjectCreationTestScript -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

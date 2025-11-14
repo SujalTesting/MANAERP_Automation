@@ -4,7 +4,7 @@
     
     "basicDetails": {
       "projectType": "Plots",
-      "projectName": "The Aqlooellq",
+      "projectName": "The Length",
       "projectUrl": "https://apextowers.com",
       "marketedBy": "XYZ Real Estate",
       "logoFilePath": "C:\\Users\\pavan\\Downloads\\Apartment Building Exterior Design Ideas _ Construction Point Blog.png" 
@@ -23,9 +23,9 @@
       "isConverterUsed": "No", 
       "singleValue": "20000",
 	  "value1": "4",
-	  	  "unit1": "Hectare",
-	  	  "value2": "15",
-	  	  "unit2": "Square yard"
+	  "unit1": "Hectare",
+	  "unit2": "Square yard",
+	  "value2": "15"
 	},
     
     "approvals": {
@@ -49,44 +49,231 @@
 	    "address": "H.No 12-34, Green Avenue Colony, Bangalore"
 	},
 	
+	"blocks": [
+			            {
+			                "blockName": "Block A - Main Tower",
+			                "units": [
+			                     {
+			                        "unitNo": "A-102",
+			                        "unitTypeName": "Odd",
+			                        "dimension": "10x10",
+			                        "facing": "West",
+			                        "areaSqft": "100",
+									"priceSqft":"1950",
+			                        "plcPerSqft": "50",
+			                        "minRatePerSqft": "3000",
+			                        "eastSide": "10",
+			                        "westSide": "10",
+			                        "northSide": "10",
+			                        "southSide": "10",
+			                        "unitStatus": "Blocked",
+			                        "releaseStatus": "Not Released",
+			                        "mortgageType": "Bank",
+			                        "sharingType": "250",
+									"surveyNo": "SURV-123",
+									"kathaNo": "KATHA-A45",
+									"pidNo": "PID-9876",
+									"inventoryType": "MAA"
+			                    }
+			                ]
+			            }
+			        ],
+	
 	"costSheet": {
 	    "basePricePerSqft": "5000",
-	    "standardTaxRate": "18"
+	    "standardTaxRate": "18",
+		"baseConstructionPricePerSqft": "3000",
+	    "constructionTaxRate": "12"
     },
 	
 	"addCharges": {
-		    "charges": [
-		        {
-		            "chargesFor": "Maintenance",
-		            "category": "Additional Charges",
-		            "costType": "Percentage",
-		            "amount": "21111",
-		            "tax": "18%"
-		        },
-		        {
-		            "chargesFor": "Car Parking",
-		            "category": "Unit charges",
-		            "costType": "Fixed",
-		            "amount": "21111",
-		            "tax": "18%"
-		        }
-		    ]
-		},
+	    "charges": [
+	        {
+	            "chargesFor": "Generator",
+	            "category": "Additional Charges",
+	            "costType": "Percentage",
+	            "amount": "21111",
+	            "tax": "18%"
+	        },
+	        {
+	            "chargesFor": "Balcony and Garden Area",
+	            "category": "Unit charges",
+	            "costType": "Fixed",
+	            "amount": "21111",
+	            "tax": "18%"
+	        }
+	    ]
+	},
 		
-		"chargeOperations": {
-			"chargeToDelete": {
-			        "chargeName": "Car Parking",
-			        "modalConfirmationAction": "Delete" // or "Cancel"
-			    }, 
-				"chargeToEdit": "Maintenance",  
-						    "updatedChargeData": {
-						        "chargesFor": "Booking Amount",
-						        "category": "Unit charges",
-						        "costType": "Fixed",
-						        "amount": "50000",
-						        "tax": "5%"
-				        }
-				    }
-				}
+	"chargeOperations": {
+		"chargeToDelete": {
+		    "chargeName": "Balcony and Garden Area",
+		    "modalConfirmationAction": "Delete"
+		}, 
+		"chargeToEdit": "Generator",  
+		"updatedChargeData": {
+		    "chargesFor": "Booking Amount",
+		    "category": "Unit charges",
+		    "costType": "Fixed",
+		    "amount": "50000",
+		    "tax": "5%"
+		}
+	},
+		 
+	"addScheduleApartmentOrPlot": {
+		"charges": [
+		    { "paymentStage": "Maintenance", "costType": "Fixed cost", "amountPercentage": "50000", "timelineDays": "0", "description": "Booking advance non-refundable" },
+		    { "paymentStage": "On Agreement", "costType": "Cost Per sqft", "amountPercentage": "10", "timelineDays": "30", "description": "After sale agreement documentation" },
+		    { "paymentStage": "On DC Conversion Layout Sanction", "costType": "Cost Per sqft", "amountPercentage": "50", "timelineDays": "60", "description": "After BMRDA DC Conversion approval" },
+		    { "paymentStage": "On infrastructure Start", "costType": "Fixed cost", "amountPercentage": "25", "timelineDays": "90", "description": "Roads, drainage, water lines begin" },
+		    { "paymentStage": "On Clubhouse Amenities Infra", "costType": "Fixed cost", "amountPercentage": "75000", "timelineDays": "120", "description": "Clubhouse infra, park dev, security infra" },
+		    { "paymentStage": "On Completion of Roads Drainage", "costType": "Cost Per sqft", "amountPercentage": "30", "timelineDays": "150", "description": "Major infrastructure completed" },
+		    { "paymentStage": "On Registration", "costType": "Cost Per sqft", "amountPercentage": "25", "timelineDays": "180", "description": "Final reg, with Khata mutation file" },
+		    { "paymentStage": "On Handover Maintenance", "costType": "Cost Per sqft", "amountPercentage": "25", "timelineDays": "180", "description": "Advance maintenance drainage final" },
+			{ "paymentStage": "On Paper Handover", "costType": "Cost Per sqft", "amountPercentage": "50", "timelineDays": "180", "description": "Paper Handover" }
+		]
+	},
+		         
+	"scheduleOperationApartmentOrPlot": {
+	    "chargeToDelete": {
+	        "chargeName": "On Handover Maintenance",
+	        "modalConfirmationAction": "Delete"
+	    }, 
+	    "chargeToEdit": "On Paper Handover",  
+	    "updatedChargeData": {
+	        "paymentStage": "On Documents Handover",
+	        "costType": "Fixed cost",
+	        "amountPercentage": "50000",
+	        "timelineDays": "26",
+	        "description": "Documents Handover"
+	    }
+	},
+
+    "plotAddScheduleVilla": {
+      "charges": [
+        { "paymentStage": "Plot Maintenance", "costType": "Fixed cost", "amountPercentage": "50000", "timelineDays": "0", "description": "Booking advance non-refundable" },
+        { "paymentStage": "Plot Agreement", "costType": "Cost Per sqft", "amountPercentage": "10", "timelineDays": "30", "description": "After sale agreement documentation" },
+        { "paymentStage": "Plot DC Conversion", "costType": "Cost Per sqft", "amountPercentage": "50", "timelineDays": "60", "description": "After BMRDA DC Conversion approval" },
+        { "paymentStage": "Plot Registration", "costType": "Cost Per sqft", "amountPercentage": "25", "timelineDays": "180", "description": "Final reg, with Khata mutation file" }
+      ]
+    },
+    
+    "constructionAddScheduleVilla": {
+      "charges": [
+        { "paymentStage": "Construction Start", "costType": "Fixed cost", "amountPercentage": "25", "timelineDays": "90", "description": "Roads, drainage, water lines begin" },
+        { "paymentStage": "Clubhouse Infra", "costType": "Fixed cost", "amountPercentage": "75000", "timelineDays": "120", "description": "Clubhouse infra, park dev, security infra" },
+        { "paymentStage": "Roads Drainage Complete", "costType": "Cost Per sqft", "amountPercentage": "30", "timelineDays": "150", "description": "Major infrastructure completed" },
+        { "paymentStage": "Handover Maintenance", "costType": "Cost Per sqft", "amountPercentage": "25", "timelineDays": "180", "description": "Advance maintenance drainage final" },
+        { "paymentStage": "Paper Handover", "costType": "Cost Per sqft", "amountPercentage": "50", "timelineDays": "180", "description": "Paper Handover" }
+      ]
+    },
+		         
+	"plotScheduleOperationVilla": {
+	    "chargeToDelete": {
+	        "chargeName": "Plot Registration",
+	        "modalConfirmationAction": "Delete"
+	    }, 
+	    "chargeToEdit": "Plot Agreement",  
+	    "updatedChargeData": {
+	        "paymentStage": "Plot Agreement Final",
+	        "costType": "Fixed cost",
+	        "amountPercentage": "25000",
+	        "timelineDays": "10",
+	        "description": "Plot Agreement Finalization"
+	    }
+	},
+
+    "constructionScheduleOperationVilla": {
+        "chargeToDelete": {
+            "chargeName": "Handover Maintenance",
+            "modalConfirmationAction": "Delete"
+        }, 
+        "chargeToEdit": "Paper Handover",  
+        "updatedChargeData": {
+            "paymentStage": "On Docs Handover",
+            "costType": "Fixed cost",
+            "amountPercentage": "50000",
+            "timelineDays": "26",
+            "description": "Documents Handover Final"
+        }
+    },
+				  
+    "projectApprovalsDetails": {
+	    "docsToUpload": [
+	        "E:/Automation Code Upload Documents/V008_Wayne Manor_Srihari Roman_Payments_Summary (1).pdf",
+	        "E:/Automation Code Upload Documents/Oman Villa Project - Gallery - D5 RENDER FORUM.jpg",
+	        "E:/Automation Code Upload Documents/B-105_Skyline Majesty_customer_Name_CostSheet.pdf",
+	        "E:/Automation Code Upload Documents/Apartment Building Exterior Design Ideas _ Construction Point Blog.png"
+	    ]
+    },
+		  		   
+    "marketingDocsDetails": {
+	    "docsToUpload": [
+	        "E:/Automation Code Upload Documents/V008_Wayne Manor_Srihari Roman_Payments_Summary (1).pdf",
+	        "E:/Automation Code Upload Documents/Oman Villa Project - Gallery - D5 RENDER FORUM.jpg",
+	        "E:/Automation Code Upload Documents/B-105_Skyline Majesty_customer_Name_CostSheet.pdf",
+	        "E:/Automation Code Upload Documents/Apartment Building Exterior Design Ideas _ Construction Point Blog.png"
+	    ]
+    },
+		  		   
+    "legalDocsDetails": {
+	    "docsToUpload": [
+	        "E:/Automation Code Upload Documents/V008_Wayne Manor_Srihari Roman_Payments_Summary (1).pdf",
+	        "E:/Automation Code Upload Documents/Oman Villa Project - Gallery - D5 RENDER FORUM.jpg",
+	        "E:/Automation Code Upload Documents/B-105_Skyline Majesty_customer_Name_CostSheet.pdf",
+	        "E:/Automation Code Upload Documents/Apartment Building Exterior Design Ideas _ Construction Point Blog.png"
+	    ]
+    },
+		  		   
+    "otherDocsDetails": {
+	    "docsToUpload": [
+	        "E:/Automation Code Upload Documents/V008_Wayne Manor_Srihari Roman_Payments_Summary (1).pdf",
+	        "E:/Automation Code Upload Documents/Oman Villa Project - Gallery - D5 RENDER FORUM.jpg",
+	        "E:/Automation Code Upload Documents/B-105_Skyline Majesty_customer_Name_CostSheet.pdf",
+	        "E:/Automation Code Upload Documents/Apartment Building Exterior Design Ideas _ Construction Point Blog.png"
+	    ]
+    },
+						   
+	"salesAccessDetails": {
+	    "usersToGrantAccess": [
+	        "PavanCPADMIN",
+	        "PavanSalesMngr",
+	        "AvinashCPAgent"
+	    ]
+	},
+	"creditNoteIssuersDetails": {
+	    "usersToGrantAccess": [
+	        "Dinesh FIN EXE"
+	    ]
+	},
+	"accountsAccessDetails": {
+	    "usersToGrantAccess": [
+	        "Gauri Prashanna",
+	        "Dinesh FIN EXE"
+	    ]
+	},
+	"marketingAccessDetails": {
+	    "usersToGrantAccess": [
+			"Pavan SiteAdmin"
+		] 
+	},
+	"crmAccessDetails": {
+	    "usersToGrantAccess": [
+	        "Dhamu Fin Exec",
+	        "Aryan CRMEX"
+	    ]
+	},
+	"legalAccessDetails": {
+	    "usersToGrantAccess": [
+	        "Pulkit Sharma"
+	    ]
+	},
+							 
+	"projectSettingsDetails": {
+	    "allowPastDateBooking": true,
+	    "maxBlockDays": "20",
+	    "deleteAction": "cancel" 
+	}
+	   }
 	  
 }
